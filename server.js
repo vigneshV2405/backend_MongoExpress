@@ -27,8 +27,16 @@ app.post('/addhotel',(req,res)=>{
     })
 })
 app.get('/gethotel/:_id',async (req,res)=>{
-    let search = await hotel.find({_id:req.params._id})
-    res.json({hotel:search[0]})
+    if(req.params._id.length===24){
+        hotel.find({_id:req.params._id}).then((resp)=>{
+            res.json({hotel:resp[0]})
+        }).catch((err)=>{
+            console.log(err)
+        })
+    }
+    else{
+        res.send('invalid url')
+    }
 })
 
 app.listen(process.env.PORT,()=>{console.log(`server running on ${process.env.PORT}`)})
