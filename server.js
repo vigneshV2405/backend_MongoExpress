@@ -12,7 +12,9 @@ app.use(cors())
 
 app.get('/getallhotels',(req,res)=>{
     hotel.find().then((resp)=>{
-        res.json({data:resp})
+        setTimeout(()=>{
+            res.json({data:resp})
+        },1000)
     })
 })
 app.post('/addhotel',(req,res)=>{
@@ -23,6 +25,10 @@ app.post('/addhotel',(req,res)=>{
     }).catch((err)=>{
         console.log('err::',err)
     })
+})
+app.get('/gethotel/:_id',async (req,res)=>{
+    let search = await hotel.find({_id:req.params._id})
+    res.json({hotel:search[0]})
 })
 
 app.listen(process.env.PORT,()=>{console.log(`server running on ${process.env.PORT}`)})
