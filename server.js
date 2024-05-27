@@ -38,5 +38,9 @@ app.get('/gethotel/:_id',async (req,res)=>{
         res.send('invalid url')
     }
 })
+app.get('/gethotelnames',async (req,res)=>{
+    let hotelnames = await hotel.find({},{hotelname:1})
+    res.json({hotelnames})
+})
 
 app.listen(process.env.PORT,()=>{console.log(`server running on ${process.env.PORT}`)})
