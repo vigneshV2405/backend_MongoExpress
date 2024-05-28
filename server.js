@@ -42,5 +42,21 @@ app.get('/gethotelnames',async (req,res)=>{
     let hotelnames = await hotel.find({},{hotelname:1})
     res.json({hotelnames})
 })
+app.put('/edithotel/:id',async (req,res)=>{
+    let resp = await hotel.updateOne({_id:req.params.id},{
+        $set:{
+            hotelname:req.body.hotelname,
+            image:req.body.image,
+            contact:req.body.contact,
+            location:req.body.location
+        }
+    })
+    if(resp.modifiedCount===1){
+        res.json({edited:true})
+    }
+    if(resp.modifiedCount===0){
+        res.json({edited:'same details'})
+    }
+})
 
 app.listen(process.env.PORT,()=>{console.log(`server running on ${process.env.PORT}`)})
