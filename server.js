@@ -20,7 +20,6 @@ app.get('/getallhotels',(req,res)=>{
 app.post('/addhotel',(req,res)=>{
     let newHotel = new hotel(req.body)
     newHotel.save().then((resp)=>{
-        console.log('resp::',resp)
         res.json({added:true})
     }).catch((err)=>{
         console.log('err::',err)
