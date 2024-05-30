@@ -58,5 +58,14 @@ app.put('/edithotel/:id',async (req,res)=>{
         res.json({edited:'same details'})
     }
 })
+app.delete('/deletehotel', async (req,res)=>{
+    let {deletedCount} = await hotel.deleteOne({_id:req.body.selectedHotel})
+    if(deletedCount===1){
+        res.json({deleted:true})
+    }
+    else{
+        res.json({error:'unable to delete'})
+    }
+})
 
 app.listen(process.env.PORT,()=>{console.log(`server running on ${process.env.PORT}`)})
