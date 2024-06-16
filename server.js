@@ -5,11 +5,13 @@ const bodyParser = require('body-parser');
 var hotel = require('./hotelModel')
 const cors = require('cors')
 const app = express();
+const chatRoutes = require('./chatapp/routes.js')
 
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 app.use(cors())
 
+app.use('/chat',chatRoutes)
 app.get('/getallhotels',(req,res)=>{
     hotel.find().then((resp)=>{
         setTimeout(()=>{
@@ -65,6 +67,15 @@ app.delete('/deletehotel', async (req,res)=>{
     else{
         res.json({error:'unable to delete'})
     }
+})
+app.get('/searchbyname/:name',async (req,res)=>{
+    let hotels = await hotel.find({},{
+        hotelname : 1
+    })
+    let filtered = hotels.filter((h)=>{
+        return h.hotelname.toLowerCase().includes(req.params.name.toLowerCase())
+    })
+    res.json({filtered})
 })
 
 app.listen(process.env.PORT,()=>{console.log(`server running on ${process.env.PORT}`)})
